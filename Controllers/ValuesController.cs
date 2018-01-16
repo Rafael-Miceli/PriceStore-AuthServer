@@ -7,26 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace PriceStore_AuthServer.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class AuthController : Controller
     {
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult  Post([FromBody]UserVm user)
         {
+            if (user.Name == "Rafael" && user.Password == "123")
+                return Ok(new User {
+                    Name = "Rafael",
+                    Email = "rafael.miceli@teste.com"
+                });
+            return Unauthorized();
         }
 
         // PUT api/values/5
@@ -41,4 +33,17 @@ namespace PriceStore_AuthServer.Controllers
         {
         }
     }
+
+    public class UserVm
+    {
+        public string Name { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class User
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+    }
 }
+
